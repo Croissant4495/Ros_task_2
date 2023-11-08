@@ -1,0 +1,20 @@
+[1.317s] Invoking command in '/home/croissant/Documents/Torpedo/ROS/ros2_ws/src/my_robot_controller': PYTHONPATH=/home/croissant/Documents/Torpedo/ROS/ros2_ws/build/my_robot_controller/prefix_override:/home/croissant/Documents/Torpedo/ROS/ros2_ws/install/my_robot_controller/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/my_robot_controller build --build-base /home/croissant/Documents/Torpedo/ROS/ros2_ws/build/my_robot_controller/build install --record /home/croissant/Documents/Torpedo/ROS/ros2_ws/build/my_robot_controller/install.log --single-version-externally-managed
+[1.621s] running egg_info
+[1.622s] writing ../../build/my_robot_controller/my_robot_controller.egg-info/PKG-INFO
+[1.622s] writing dependency_links to ../../build/my_robot_controller/my_robot_controller.egg-info/dependency_links.txt
+[1.622s] writing entry points to ../../build/my_robot_controller/my_robot_controller.egg-info/entry_points.txt
+[1.622s] writing requirements to ../../build/my_robot_controller/my_robot_controller.egg-info/requires.txt
+[1.622s] writing top-level names to ../../build/my_robot_controller/my_robot_controller.egg-info/top_level.txt
+[1.625s] reading manifest file '../../build/my_robot_controller/my_robot_controller.egg-info/SOURCES.txt'
+[1.641s] writing manifest file '../../build/my_robot_controller/my_robot_controller.egg-info/SOURCES.txt'
+[1.642s] running build
+[1.642s] running build_py
+[1.642s] running install
+[1.643s] running install_lib
+[1.644s] running install_data
+[1.645s] running install_egg_info
+[1.648s] removing '/home/croissant/Documents/Torpedo/ROS/ros2_ws/install/my_robot_controller/lib/python3.10/site-packages/my_robot_controller-0.0.0-py3.10.egg-info' (and everything under it)
+[1.648s] Copying ../../build/my_robot_controller/my_robot_controller.egg-info to /home/croissant/Documents/Torpedo/ROS/ros2_ws/install/my_robot_controller/lib/python3.10/site-packages/my_robot_controller-0.0.0-py3.10.egg-info
+[1.650s] running install_scripts
+[1.700s] writing list of installed files to '/home/croissant/Documents/Torpedo/ROS/ros2_ws/build/my_robot_controller/install.log'
+[1.774s] Invoked command in '/home/croissant/Documents/Torpedo/ROS/ros2_ws/src/my_robot_controller' returned '0': PYTHONPATH=/home/croissant/Documents/Torpedo/ROS/ros2_ws/build/my_robot_controller/prefix_override:/home/croissant/Documents/Torpedo/ROS/ros2_ws/install/my_robot_controller/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/my_robot_controller build --build-base /home/croissant/Documents/Torpedo/ROS/ros2_ws/build/my_robot_controller/build install --record /home/croissant/Documents/Torpedo/ROS/ros2_ws/build/my_robot_controller/install.log --single-version-externally-managed
