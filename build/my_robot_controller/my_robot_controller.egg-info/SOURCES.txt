@@ -14,6 +14,7 @@ my_robot_controller/main.py
 my_robot_controller/my_first_node.py
 my_robot_controller/pose_subscriber.py
 my_robot_controller/turtle_border.py
+my_robot_controller/turtle_catcher.py
 my_robot_controller.egg-info/PKG-INFO
 my_robot_controller.egg-info/SOURCES.txt
 my_robot_controller.egg-info/dependency_links.txt
