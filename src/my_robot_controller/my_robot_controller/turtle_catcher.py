@@ -29,7 +29,7 @@ class turtleControl(Node):
         self.my_turtle = Turtle("base")
         # self.spawn_new_turtle()
         # self.spawn_turtles = [random.random()*8 + 1, random.random()*8 + 1, random.random()*8 + 1, random.random() * 2 * 3.14]
-        self.spawn_turtles = [11, -11, random.random() * 2 * 3.14]
+        self.spawn_turtles = [7, 7, random.random() * 2 * 3.14]
         self.temp = False
 
         self.get_logger().info("Turtle controller started")
@@ -39,18 +39,22 @@ class turtleControl(Node):
         self.main()
 
     def pub_speed(self):
-        # if turtle near border rotate
         msg = Twist()
-        if self.my_turtle.pose.x > 9.0 or self.my_turtle.pose.x < 2.0:
-            msg.linear.x = 1.0
-            msg.angular.z = 0.9
-        else:
-            # msg.linear.x = 3.0
-            msg.angular.z = 0.9
-        self.get_logger().info('Current theta: "%f"' % self.my_turtle.pose.theta)
-        self.adjust_angle()
-        self.speed_publisher.publish(msg)
+        angle = self.get_adjust_angle()
         
+        if angle == 0:
+            msg.linear.x = 3.0
+        else:
+            # msg.linear.x = 1.0
+            msg.angular.z = angle
+
+        # msg.angular.z=0.9
+        
+        # self.get_logger().info('Current theta: "%f"' % self.my_turtle.pose.theta)
+        self.speed_publisher.publish(msg)
+    
+
+    # ______Angle Correction_______
     def get_correction_angle(self):
         dy = self.spawn_turtles[1] - self.my_turtle.pose.y
         dx = self.spawn_turtles[0] - self.my_turtle.pose.x
@@ -63,25 +67,29 @@ class turtleControl(Node):
         elif difference < -math.pi:
             difference = difference + 2*math.pi
 
-        self.get_logger().info('Slope angle: "%f"' % slope_angle)
-        self.get_logger().info('Correction angle: "%f"' % (self.my_turtle.pose.theta - slope_angle))
+        # self.get_logger().info('Slope angle: "%f"' % slope_angle)
+        # self.get_logger().info('Correction angle: "%f"' % (self.my_turtle.pose.theta - slope_angle))
         return difference
     
-    def adjust_angle(self):
+    def get_adjust_angle(self):
         difference = self.get_correction_angle()
         
-        if abs(difference) < 0.3 or abs(difference) > (2*math.pi - 0.3):
+        if abs(difference) < 0.2:
             # Go forward
-            self.get_logger().info('Forward')
+            # self.get_logger().info('Forward')
+            angle = 0
         elif difference < 0:
             # Negative go Anti 
-            self.get_logger().info('Anti-clockwise')
+            # self.get_logger().info('Anti-clockwise')
+            angle = abs(difference)/math.pi + 0.15
         else:
             # Positive go clock
-            self.get_logger().info('clockwise')
+            # self.get_logger().info('clockwise')
+            angle = -abs(difference)/math.pi - 0.15
 
-
-
+        return angle
+    
+    # ______Turtle Spawner/Killer_______
     def kill_sp_turtle(self):
         pass
 
@@ -91,7 +99,7 @@ class turtleControl(Node):
         self.kill_sp_turtle()
         # spawn new turtle
         # Set up client
-        client = self.create_client(Spawn, "turtlesim/srv/Spawn")
+        client = self.create_client(Spawn, "/spawn")
         while not client.wait_for_service(1.0):
             self.get_logger().info("Waiting for service.....")
         
@@ -111,17 +119,34 @@ class turtleControl(Node):
         future = client.call_async(request)
         future.add_done_callback(partial(self.callback_spawn))
 
-
     def callback_spawn(self, future):
         try:
             response = future.result()
         except Exception as e:
             self.get_logger().error("Service call failed: %r"%(e,))
 
-    def has_collided(self, pose):
-        return 0
+    # ______Collision Detection_______
+    def get_dist(self, coord):
+        dy = self.my_turtle.pose.y - coord[1]
+        dx = self.my_turtle.pose.x - coord[0]
+        return math.sqrt(dy*dy + dx*dx)
 
+    def has_collided(self):
+        if self.get_dist([self.spawn_turtles[0], self.spawn_turtles[1]]) < 0.3:
+            return True
+        return False
+    
+    def collision_handler(self):
+        if self.has_collided():
+            self.spawn_turtles[0] = random.random()*8 + 1
+            self.spawn_turtles[1] = random.random()*8 + 1
+            self.get_logger().info('New X: "%f"' % self.spawn_turtles[0])
+            self.get_logger().info('New Y: "%f"' % self.spawn_turtles[1])
+    
+    # ______Main_______
     def main(self):
+        # Already update current pose
+        self.collision_handler()
         self.pub_speed()
 
 
